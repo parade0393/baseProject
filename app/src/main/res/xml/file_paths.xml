@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <root-path name="root_path" path="."/>
+    <external-path path="yunduooa_down" name="external_storage_root" />
+    <external-path path="/sdcard/crash/" name="external_storage_root" />
+</paths>
