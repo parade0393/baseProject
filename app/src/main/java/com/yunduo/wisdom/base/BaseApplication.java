@@ -12,7 +12,7 @@ import com.yunduo.wisdom.util.cache.DataCenter;
  */
 public class BaseApplication  extends MultiDexApplication {
 
-    private static BaseApplication app = null;
+    public static BaseApplication app = null;
     private static Context mContext;
     private DataCenter dataCenter;
 
@@ -24,6 +24,7 @@ public class BaseApplication  extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         app = this;
+        dataCenter = DataCenter.getDataCenter(this);
         mContext = getApplicationContext();
         /** 初始化腾讯tbs内核 */
         initX5();
