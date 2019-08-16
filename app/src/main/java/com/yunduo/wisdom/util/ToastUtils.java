@@ -12,12 +12,6 @@ import es.dmoral.toasty.Toasty;
 
 public class ToastUtils {
 
-    public static void showToast(Context context, int message) {
-        if (null != context && message != 0) {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public static void success(Context context,String msg){
         Toast success = Toasty.success(context, msg);
         success.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
