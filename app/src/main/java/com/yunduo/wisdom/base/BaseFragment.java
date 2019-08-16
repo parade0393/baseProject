@@ -2,6 +2,7 @@ package com.yunduo.wisdom.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -60,6 +61,10 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    public final <T extends View> T findViewById(@IdRes int id) {
+        return mRootView.findViewById(id);
     }
 
     public void getDataFromNet(Observable observable, Observer observer){
