@@ -8,6 +8,10 @@
 3. 加入权限声明
 4. 在BaseApplication中初始化
 
+## 腾讯Buggly集成
+1. 导入依赖，加入相应的权限
+2. 初始化，填写注册时申请的id，即可
+
 ## 蒲公英集成
 1. build.gradle导入依赖，配置meta-data
 2. 配置自动更新

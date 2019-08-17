@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.smtt.sdk.QbSdk;
 import com.yunduo.wisdom.util.cache.DataCenter;
 
@@ -28,10 +29,13 @@ public class BaseApplication  extends MultiDexApplication {
         mContext = getApplicationContext();
         /** 初始化腾讯tbs内核 */
         initX5();
+        //Buggly
+        initBugCrashReport();
     }
 
-    public static void setmContext(Context mContext) {
-        app.mContext = mContext;
+    private void initBugCrashReport() {
+        //第3个参数测试阶段设置为true，发布时设置为false
+        CrashReport.initCrashReport(getApplicationContext(), "5f93621297", false);
     }
 
     public static Context getmContext() {

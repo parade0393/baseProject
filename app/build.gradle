@@ -58,5 +58,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //蒲公英
     implementation 'com.pgyersdk:sdk:3.0.5'
+    //Buggly
+    implementation 'com.tencent.bugly:crashreport:latest.release'
 
 }
