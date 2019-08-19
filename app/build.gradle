@@ -9,15 +9,27 @@ android {
         ndk {
             abiFilters 'armeabi'
         }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "resourcePackageName": android.defaultConfig.applicationId
+                ]
+            }
+        }
         multiDexEnabled true
-        versionCode 6
-        versionName "0.0.6"
+        versionCode 9
+        versionName "0.0.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            minifyEnabled false
+            applicationIdSuffix ".test"
         }
     }
 }
