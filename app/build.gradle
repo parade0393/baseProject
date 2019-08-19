@@ -25,11 +25,13 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
+            manifestPlaceholders = ["APP_NAME":"智慧运维"]
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug{
             minifyEnabled false
             applicationIdSuffix ".test"
+            manifestPlaceholders = ["APP_NAME":"智慧运维测试"]
         }
     }
 }
