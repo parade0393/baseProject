@@ -16,6 +16,7 @@ import android.view.View;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.pgyersdk.update.javabean.AppBean;
+import com.yunduo.wisdom.util.eventbus.EventBusUtil;
 
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -50,6 +51,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void afterSetContentView() {
         ButterKnife.bind(this);
+        if (isRegisteredEventBus()){
+            EventBusUtil.register(this);
+        }
         initView();
         initData();
         initEvent();
@@ -78,12 +82,32 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void initEvent();
 
+    /**
+     * 是否注册时间分发 默认不注册
+     * 重写此方法返回true来注册EventBus
+     * @return true:注册；false：不注册
+     */
+    protected boolean isRegisteredEventBus(){
+        return false;
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (isRegisteredEventBus()){
+            EventBusUtil.unregister(this);
+        }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isRegisteredEventBus()){
+            if (!EventBusUtil.isRegistered(this)){
+                EventBusUtil.register(this);
+            }
+        }
+    }
 
     private void checkUpdate(){
         new PgyUpdateManager.Builder()

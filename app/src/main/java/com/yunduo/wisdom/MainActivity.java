@@ -5,6 +5,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.yunduo.wisdom.base.BaseActivity;
+import com.yunduo.wisdom.constant.Constant;
+import com.yunduo.wisdom.util.eventbus.Event;
+import com.yunduo.wisdom.util.eventbus.EventBusUtil;
 
 public class MainActivity extends BaseActivity {
 
@@ -32,7 +35,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
+        EventBusUtil.sendEvent(new Event(Constant.EventCode.A,true));
     }
 
 }

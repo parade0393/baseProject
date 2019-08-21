@@ -19,6 +19,14 @@
 1. build.gradle导入依赖，配置meta-data
 2. 配置自动更新
 
+## EnentBus封装
+1. 封装EventBusUtil工具类
+2. 封装Event事件基类
+3. 封装事件Code事件常量类 EventCode，通过code区分事件类型
+4. 在BaseActivity和BaseFragment封装注册和取消注册
+5. 发送事件例子`EventBusUtil.sendEvent(new Event(Constant.EventCode.A,true));`
+6.在需要接受事件的类中定义接受事件，根据code来判来处理事件
+
 ### 疑问
 1. MultiDex
 2. 项目crash日志收集

@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yunduo.wisdom.util.eventbus.EventBusUtil;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.Observable;
@@ -42,7 +44,9 @@ public abstract class BaseFragment extends Fragment {
             mRootView = inflater.inflate(getLayoutId(), container, false);
         }
         unbinder = ButterKnife.bind(this, mRootView);
-
+        if (isRegisteredEventBus()){
+            EventBusUtil.register(this);
+        }
         initViews();
         initDatas();
         setEvents();
@@ -57,12 +61,6 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract void setEvents();
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     public final <T extends View> T findViewById(@IdRes int id) {
         return mRootView.findViewById(id);
     }
@@ -71,5 +69,33 @@ public abstract class BaseFragment extends Fragment {
         observable.observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
+    }
+
+    /**
+     * 是否注册时间分发 默认不注册
+     * 重写此方法返回true来注册EventBus
+     * @return true:注册；false：不注册
+     */
+    protected boolean isRegisteredEventBus(){
+        return false;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        if (isRegisteredEventBus()){
+            EventBusUtil.unregister(this);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isRegisteredEventBus()){
+            if (!EventBusUtil.isRegistered(this)){
+                EventBusUtil.register(this);
+            }
+        }
     }
 }
