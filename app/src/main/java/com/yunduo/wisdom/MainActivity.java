@@ -1,18 +1,23 @@
 package com.yunduo.wisdom;
 
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
 
+import com.next.easynavigation.view.EasyNavigationBar;
 import com.yunduo.wisdom.base.BaseActivity;
 import com.yunduo.wisdom.constant.Constant;
 import com.yunduo.wisdom.util.eventbus.Event;
 import com.yunduo.wisdom.util.eventbus.EventBusUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends BaseActivity {
 
-    private TextView textView;
-    private Button btn_test;
+    private EasyNavigationBar easy;
+    private String[] tabs;
+    private int[] normalICon;
+    private int[] selectIcon;
+    private List<Fragment> fragments;
 
     @Override
     protected int getLayoutId() {
@@ -21,21 +26,18 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        btn_test = (Button) findViewById(R.id.btn_test);
+        easy = (EasyNavigationBar) findViewById(R.id.easy);
     }
 
     @Override
     protected void initEvent() {
-        btn_test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+
     }
 
     @Override
     protected void initData() {
         EventBusUtil.sendEvent(new Event(Constant.EventCode.A,true));
+        fragments = new ArrayList<>();
     }
 
 }

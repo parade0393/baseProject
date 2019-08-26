@@ -75,4 +75,6 @@ dependencies {
     //Buggly
     implementation 'com.tencent.bugly:crashreport:latest.release'
 
+    implementation 'com.github.forvv231:EasyNavigation:1.0.3'
+
 }

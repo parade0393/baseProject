@@ -27,6 +27,10 @@ public abstract class BaseFragment extends Fragment {
     private View mRootView;
     protected Context mContext;
     private Unbinder unbinder;
+    //视图是否已经完成初始化
+    private boolean isViewCreated;
+    //是否已经预加载过数据
+    private boolean isLoad;
 
     @Override
     public void onAttach(Context context) {
@@ -53,12 +57,55 @@ public abstract class BaseFragment extends Fragment {
         return mRootView;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        isViewCreated = true;
+        isCanLoadData();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        isCanLoadData();
+    }
+
+    private void isCanLoadData() {
+        if (!isViewCreated){
+            return;
+        }
+
+        if (getUserVisibleHint()){
+            lazyLoad();
+            isLoad = true;
+        }
+    }
+
+    /**
+     * 设置布局
+     * @return fragment的布局资源
+     */
     protected abstract int getLayoutId();
 
+    /**
+     * 此方法内进行布局绑定、View初始化等操作
+     */
     protected abstract void initViews();
 
+    /**
+     *在布局加载后执行(有可能布局还不可见)，建议在此方法内加载数据和处理布局显示数据
+     */
     protected abstract void initDatas();
 
+    /**
+     * 预加载时用这个方法
+     */
+    protected abstract void lazyLoad();
+
+    /**
+     *建议在此方法内绑定设置监听器、设置执行回调事件等操作
+     */
     protected abstract void setEvents();
 
     public final <T extends View> T findViewById(@IdRes int id) {
@@ -98,4 +145,5 @@ public abstract class BaseFragment extends Fragment {
             }
         }
     }
+
 }
