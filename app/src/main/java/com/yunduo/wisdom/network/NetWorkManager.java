@@ -1,17 +1,13 @@
 package com.yunduo.wisdom.network;
 
 import com.yunduo.wisdom.BuildConfig;
-import com.yunduo.wisdom.base.BaseApplication;
 import com.yunduo.wisdom.constant.Constant;
+import com.yunduo.wisdom.network.interceptor.MyLoggingInterceptor;
+import com.yunduo.wisdom.network.interceptor.RequestInterceptor;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -25,33 +21,24 @@ public class NetWorkManager {
     private static final int READ_TIMEOUT = 20;
     private static final int WRITE_TIMEOUT = 20;
 
-    private static OkHttpClient getHttpClient(){
+    private static final RequestInterceptor requestInterceptor = new RequestInterceptor();
+    private static final MyLoggingInterceptor loggingInterceptor = new MyLoggingInterceptor();
+
+    /**
+     * 获取httpclient
+     * */
+    private static OkHttpClient getHttpClient() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        //设置超时时间
         httpClient.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
         httpClient.writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS);
         httpClient.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
-        httpClient.retryOnConnectionFailure(true);
-
-        HttpLoggingInterceptor loggingInterceptor = null;
-        if (BuildConfig.DEBUG){
-            loggingInterceptor = new HttpLoggingInterceptor(new HttpLog());
-            loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+        httpClient.retryOnConnectionFailure(true);//错误重连
+        httpClient.addInterceptor(requestInterceptor);
+        // Debug时才设置Log拦截器，才可以看到
+        if (BuildConfig.DEBUG) {
             httpClient.addInterceptor(loggingInterceptor);
         }
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Interceptor.Chain chain) throws IOException {
-                Request original = chain.request();
-                String token = BaseApplication.app.getDataCenter().getToken();//有疑问
-                Request request = original.newBuilder()
-                        .header("Token", token == null ? "" : token)
-                        .header("Client", "ANDROID")
-                        .method(original.method(), original.body())
-                        .build();
-
-                return chain.proceed(request);
-            }
-        });
         return httpClient.build();
     }
 

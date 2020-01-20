@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                android:bottom="2dp"
+                android:left="2dp"
+                android:right="2dp"
+                android:top="2dp" />
+            <solid android:color="#0df3f4f5" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                android:bottom="2dp"
+                android:left="2dp"
+                android:right="2dp"
+                android:top="2dp" />
+            <solid android:color="#10f3f4f5" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                android:bottom="2dp"
+                android:left="2dp"
+                android:right="2dp"
+                android:top="2dp" />
+            <solid android:color="#20f3f4f5" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                android:bottom="2dp"
+                android:left="2dp"
+                android:right="2dp"
+                android:top="2dp" />
+            <solid android:color="#30f3f4f5" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                android:bottom="@dimen/dp_0_5"
+                android:left="@dimen/dp_0_5"
+                android:right="@dimen/dp_0_5"
+                android:top="@dimen/dp_0_5" />
+            <solid android:color="#fff3f4f5" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@android:color/white" />
+            <corners android:radius="@dimen/dp_10" />
+        </shape>
+    </item>
+</layer-list>

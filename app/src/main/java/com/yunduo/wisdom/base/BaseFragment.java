@@ -29,7 +29,8 @@ public abstract class BaseFragment extends Fragment {
     private Unbinder unbinder;
     //视图是否已经完成初始化
     private boolean isViewCreated;
-    //是否已经预加载过数据
+    /**是否已经预加载过数据 第一次加载改变状态 防止由于viewpager的缓存页面数据
+     *  确保只加载当前tab页面，并且是从空数据开始加载*/
     private boolean isLoad;
 
     @Override
@@ -51,9 +52,10 @@ public abstract class BaseFragment extends Fragment {
         if (isRegisteredEventBus()){
             EventBusUtil.register(this);
         }
+        //事件监听要放在视图初始化时候和数据初始化之前
         initViews();
-        initDatas();
         setEvents();
+        initDatas();
         return mRootView;
     }
 
@@ -76,7 +78,8 @@ public abstract class BaseFragment extends Fragment {
             return;
         }
 
-        if (getUserVisibleHint()){
+        //确保只加载当前tab页面，并且是从空数据开始加载 否则由于viewpager的缓存，从相邻tab页切过来的时候，还有页面缓存数据
+        if (getUserVisibleHint() && !isLoad){
             lazyLoad();
             isLoad = true;
         }
@@ -99,7 +102,7 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void initDatas();
 
     /**
-     * 预加载时用这个方法
+     * 预加载时用这个方法，从空数据开始加载当前页面
      */
     protected abstract void lazyLoad();
 

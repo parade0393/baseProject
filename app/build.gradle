@@ -34,6 +34,17 @@ android {
             manifestPlaceholders = ["APP_NAME":"智慧运维测试"]
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
@@ -44,8 +55,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.support:multidex:1.0.3'
-    /** 蒲公英 */
-    implementation 'com.pgyersdk:sdk:3.0.5'
     /** 万能适配器 */
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
     /** 时间选择 */
@@ -60,6 +69,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.1.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
 
     //工具集
     implementation 'com.blankj:utilcode:1.25.7'
@@ -72,9 +82,14 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //蒲公英
     implementation 'com.pgyersdk:sdk:3.0.5'
-    //Buggly
-    implementation 'com.tencent.bugly:crashreport:latest.release'
 
     implementation 'com.github.forvv231:EasyNavigation:1.0.3'
+
+    //图片选择器
+    implementation(name: 'matisse-release', ext: 'aar') {
+        exclude group: 'com.github.bumptech.glide'
+    }
+    //查看大图
+    implementation 'com.github.SherlockGougou:BigImageViewPager:v4_5.0.4'
 
 }

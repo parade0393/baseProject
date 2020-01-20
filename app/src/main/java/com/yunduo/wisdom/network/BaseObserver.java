@@ -3,12 +3,14 @@ package com.yunduo.wisdom.network;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.yunduo.wisdom.R;
+import com.yunduo.wisdom.view.widget.CommonDialog;
 import com.yunduo.wisdom.network.exception.ResultException;
 import com.yunduo.wisdom.util.ToastUtils;
 
@@ -27,9 +29,20 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     protected Disposable disposable;
     private Context mContext;
+    private CommonDialog loadingDialog;
+    private boolean showDialog;
 
-    public BaseObserver(Context context) {
+    public BaseObserver(Context context, boolean showDialog) {
+        this(context, showDialog, "加载中...");
+    }
+
+    protected BaseObserver(Context context, boolean showDialog, String msg) {
         this.mContext = context;
+        loadingDialog = new CommonDialog.Builder(mContext, R.layout.dialog_request_loading)
+                .setCanceledOnOut(false).build();
+        TextView tv = (TextView) loadingDialog.findViewById(R.id.tv_loading_tip);
+        tv.setText(msg + "...");
+        this.showDialog = showDialog;
     }
 
     @Override

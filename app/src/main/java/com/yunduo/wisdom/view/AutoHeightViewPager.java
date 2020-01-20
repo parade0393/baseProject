@@ -41,7 +41,7 @@ public class AutoHeightViewPager extends ViewPager {
 
     /**
      * 重新设置高度
-     *
+     *在viewpager的onPageSelected事件调用，选中某个fragment后，重新计算高度
      * @param current
      */
     public void resetHeight(int current) {
@@ -59,6 +59,10 @@ public class AutoHeightViewPager extends ViewPager {
 
     /**
      * 保存View对应的索引,需要自适应高度的一定要设置这个
+     * fragment里调用这个方法，把view和位置传进来
+     * 创建fragment的时候把viewpager和position传进来
+     * @param view fragment的rootView
+     * @param position 当前fragment的索引
      */
     public void setViewForPosition(View view, int position) {
         mChildrenViews.put(position, view);

@@ -32,7 +32,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:networkSecurityConfig">
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -41,11 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <provider
-            android:name="com.pgyersdk.PgyerProvider"
-            android:authorities="${applicationId}.com.pgyer.provider"
-            android:exported="false"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -57,9 +53,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <meta-data
-            android:name="PGYER_APPID"
-            android:value="5bab663b938ce9c9165c78c34726d721" />
+
     </application>
 
 </manifest>
