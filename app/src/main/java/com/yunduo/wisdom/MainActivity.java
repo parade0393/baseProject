@@ -1,6 +1,6 @@
 package com.yunduo.wisdom;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.next.easynavigation.view.EasyNavigationBar;
 import com.yunduo.wisdom.base.BaseActivity;

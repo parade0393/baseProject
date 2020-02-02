@@ -1,7 +1,7 @@
 package com.yunduo.wisdom.base;
 
 import android.content.Context;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.tencent.smtt.sdk.QbSdk;
