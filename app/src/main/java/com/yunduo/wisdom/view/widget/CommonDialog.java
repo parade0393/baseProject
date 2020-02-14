@@ -3,13 +3,14 @@ package com.yunduo.wisdom.view.widget;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.IdRes;
-import androidx.annotation.LayoutRes;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,32 +20,8 @@ import java.util.List;
  *date: 2020/1/8 17:20
  *description：基础dialog
  */
-public class CommonDialog {
-
-    private Builder builder;
-
-    public CommonDialog(Builder builder) {
-        this.builder = builder;
-    }
-
-    public void show(){
-        builder.show();
-    }
-
-    public void dismiss(){
-        builder.dismiss();
-    }
-
-    public boolean isShowing(){
-        return builder.isShowing();
-    }
-
-    public View findViewById(int resId){
-        return builder.findViewById(resId);
-    }
-
-    public static class Builder extends Dialog implements View.OnClickListener {
-
+public class CommonDialog extends Dialog implements View.OnClickListener{
+    
         private List<Integer> viewIds;//需要设置内容的TextView
         private List<CharSequence> viewValues;//设置的内容
         private Integer gravity;
@@ -53,7 +30,7 @@ public class CommonDialog {
         private int offsetY;
         private int offsetX;
 
-        public Builder(Context context,@LayoutRes int resId) {
+        public CommonDialog(Context context,@LayoutRes int resId) {
             super(context);
             setContentView(resId);
             initData();
@@ -69,6 +46,11 @@ public class CommonDialog {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+        }
+
+        @Override
+        protected void onStart() {
+            super.onStart();
             Window window = getWindow();
             if (window != null) {
                 window.setBackgroundDrawableResource(android.R.color.transparent);
@@ -82,8 +64,8 @@ public class CommonDialog {
                 window.setAttributes(params);
             }
 
-            for (int i = 0; i < listenItem.length; i++) {
-                findViewById(listenItem[i]).setOnClickListener(this);
+            for (int t : listenItem) {
+                findViewById(t).setOnClickListener(this);
             }
 
             //循环设置文本
@@ -91,33 +73,39 @@ public class CommonDialog {
                 TextView view = findViewById(viewIds.get(i));
                 view.setText(viewValues.get(i));
             }
+
         }
 
-        public Builder setGravity(Integer gravity){
+        public CommonDialog setGravity(Integer gravity){
             this.gravity = gravity;
             return this;
         }
 
-        public Builder setoffsetY(int offset){
+        public CommonDialog setoffsetY(int offset){
             this.offsetY = offset;
             return this;
         }
-        public Builder setoffsetX(int offset){
+        public CommonDialog setoffsetX(int offset){
             this.offsetX = offset;
             return this;
         }
 
-        public Builder setCanceledOnOut(boolean cancel){
+        public CommonDialog setCanceledOnOut(boolean cancel){
             setCanceledOnTouchOutside(cancel);
             return this;
         }
 
-        public Builder setListenItem(int[] listenItem){
+        public CommonDialog setCancelableBack(boolean flag) {
+            setCancelable(flag);
+            return this;
+        }
+
+        public CommonDialog setListenItem(int[] listenItem){
             this.listenItem = listenItem;
             return this;
         }
 
-        public Builder setListener(OnAllItemClickListener listener){
+        public CommonDialog setListener(OnAllItemClickListener listener){
             this.listener = listener;
             return this;
         }
@@ -127,7 +115,7 @@ public class CommonDialog {
          * @param viewId TextView的ID
          * @param value 需要设置的值
          */
-        public Builder setText(@IdRes int viewId, CharSequence value){
+        public CommonDialog setText(@IdRes int viewId, CharSequence value){
             viewIds.add(viewId);
             viewValues.add(value);
             return this;
@@ -141,11 +129,6 @@ public class CommonDialog {
         }
 
         public interface OnAllItemClickListener{
-            void handleClick(Builder builder, View view);
+            void handleClick(CommonDialog CommonDialog,View view);
         }
-
-        public CommonDialog build(){
-            return new CommonDialog(this);
-        }
-    }
 }

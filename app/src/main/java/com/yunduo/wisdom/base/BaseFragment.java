@@ -2,13 +2,14 @@ package com.yunduo.wisdom.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.yunduo.wisdom.util.eventbus.EventBusUtil;
 
@@ -24,7 +25,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public abstract class BaseFragment extends Fragment {
 
-    private View mRootView;
+    protected View mRootView;
     protected Context mContext;
     private Unbinder unbinder;
     //视图是否已经完成初始化
@@ -32,6 +33,8 @@ public abstract class BaseFragment extends Fragment {
     /**是否已经预加载过数据 第一次加载改变状态 防止由于viewpager的缓存页面数据
      *  确保只加载当前tab页面，并且是从空数据开始加载*/
     private boolean isLoad;
+    private boolean isFirstLoad;
+
 
     @Override
     public void onAttach(Context context) {
@@ -44,7 +47,7 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        isFirstLoad = true;
         if (mRootView == null){
             mRootView = inflater.inflate(getLayoutId(), container, false);
         }
@@ -57,32 +60,6 @@ public abstract class BaseFragment extends Fragment {
         setEvents();
         initDatas();
         return mRootView;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        isViewCreated = true;
-        isCanLoadData();
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        isCanLoadData();
-    }
-
-    private void isCanLoadData() {
-        if (!isViewCreated){
-            return;
-        }
-
-        //确保只加载当前tab页面，并且是从空数据开始加载 否则由于viewpager的缓存，从相邻tab页切过来的时候，还有页面缓存数据
-        if (getUserVisibleHint() && !isLoad){
-            lazyLoad();
-            isLoad = true;
-        }
     }
 
     /**
@@ -137,6 +114,7 @@ public abstract class BaseFragment extends Fragment {
         if (isRegisteredEventBus()){
             EventBusUtil.unregister(this);
         }
+        isFirstLoad = true;
     }
 
     @Override
@@ -146,6 +124,11 @@ public abstract class BaseFragment extends Fragment {
             if (!EventBusUtil.isRegistered(this)){
                 EventBusUtil.register(this);
             }
+        }
+
+        if (isFirstLoad){
+            lazyLoad();
+            isFirstLoad = false;
         }
     }
 

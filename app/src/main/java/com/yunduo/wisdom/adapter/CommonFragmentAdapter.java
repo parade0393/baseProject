@@ -1,10 +1,14 @@
 package com.yunduo.wisdom.adapter;
 
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import android.view.ViewGroup;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -14,11 +18,26 @@ import java.util.List;
 public class CommonFragmentAdapter extends FragmentPagerAdapter {
     private Fragment currentFragment;
     private List<Fragment> mFragments;
+    private List<String> titleList;
     public CommonFragmentAdapter(FragmentManager fm, List<Fragment> mFragments) {
-        super(fm);
+        this(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,mFragments);
+    }
+
+    /**
+     * 配合tabLayout使用需要设置标题时使用
+     * @param titleList 需要设置的标题集合
+     */
+    public CommonFragmentAdapter(FragmentManager fm, List<Fragment> mFragments,List<String> titleList) {
+        this(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,mFragments);
+        this.titleList = titleList;
+    }
+
+    private CommonFragmentAdapter(FragmentManager fm, int behavior, List<Fragment> mFragments) {
+        super(fm,behavior);
         this.mFragments = mFragments;
     }
 
+    @NotNull
     @Override
     public Fragment getItem(int i) {
         return mFragments.get(i);
@@ -27,10 +46,6 @@ public class CommonFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return mFragments == null ? 0 : mFragments.size();
-    }
-
-    public CommonFragmentAdapter(FragmentManager fm) {
-        super(fm);
     }
 
     @NonNull
@@ -62,5 +77,11 @@ public class CommonFragmentAdapter extends FragmentPagerAdapter {
      */
     public Fragment getCurrentFragment() {
         return currentFragment;
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titleList.get(position);
     }
 }
