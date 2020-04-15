@@ -13,3 +13,4 @@
 .externalNativeBuild
 /release
 */debug
+/.idea

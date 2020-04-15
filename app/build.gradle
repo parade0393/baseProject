@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.yunduo.wisdom"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         ndk {
             abiFilters 'armeabi'
@@ -80,8 +80,7 @@ dependencies {
     //butterknife
     implementation 'com.jakewharton:butterknife:10.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
-    //没有x
-    implementation 'com.github.forvv231:EasyNavigation:1.0.3'
+
 
     //图片选择器
     implementation(name: 'matisse-release', ext: 'aar') {
@@ -89,6 +88,11 @@ dependencies {
     }
     //查看大图
     implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-5.0.4'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
+
+    implementation 'com.qmuiteam:qmui:2.0.0-alpha02'
+    implementation 'com.github.promeg:tinypinyin:2.0.3'
+    //权限
+    implementation 'pub.devrel:easypermissions:2.0.1'
 
 }
