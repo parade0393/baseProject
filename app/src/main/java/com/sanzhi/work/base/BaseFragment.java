@@ -1,5 +1,6 @@
 package com.sanzhi.work.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected View mRootView;
     protected Context mContext;
+    protected Activity mActivity;
     private Unbinder unbinder;
     //视图是否已经完成初始化
     private boolean isViewCreated;
@@ -39,9 +41,8 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (mContext != null){
-            mContext = context;
-        }
+        mContext = context;
+        mActivity = getActivity();
     }
 
     @Nullable
@@ -92,8 +93,8 @@ public abstract class BaseFragment extends Fragment {
         return mRootView.findViewById(id);
     }
 
-    public void getDataFromNet(Observable observable, Observer observer){
-        observable.observeOn(Schedulers.io())
+    public<T> void getDataFromNet(Observable<T> observable, Observer<T> observer){
+        observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }

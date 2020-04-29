@@ -75,9 +75,9 @@ public class CommonFragmentAdapter extends FragmentPagerAdapter {
      * 获取保存的当前的fragment
      * @return
      */
-    public Fragment getCurrentFragment() {
+    /*public Fragment getCurrentFragment() {
         return currentFragment;
-    }
+    }*/
 
     @Nullable
     @Override

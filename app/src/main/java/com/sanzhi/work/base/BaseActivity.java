@@ -1,5 +1,6 @@
 package com.sanzhi.work.base;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -19,11 +20,15 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 0001;
+    protected Context mContext;
+    protected BaseApplication app;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        mContext = BaseActivity.this;
+        app = BaseApplication.app;
         afterSetContentView();
     }
 
