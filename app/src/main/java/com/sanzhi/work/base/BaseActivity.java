@@ -75,13 +75,21 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (isCheckUpdate()){
+            // TODO: 2020/5/9 自己的自动更新逻辑
+        }
     }
 
 
-    public void getDataFromNet(Observable observable, Observer observer){
-        observable.observeOn(Schedulers.io())
+    public <T> void getDataFromNet(Observable<T> observable, Observer<T> observer){
+        observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
+    }
+
+    /** 是否检查更新 */
+    protected  boolean isCheckUpdate(){
+        return false;
     }
 
 }

@@ -129,6 +129,6 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
         }
 
         public interface OnAllItemClickListener{
-            void handleClick(CommonDialog CommonDialog,View view);
+            void handleClick(CommonDialog commonDialog,View view);
         }
 }
